@@ -47,3 +47,35 @@ To run or build a project find scripts in package.json
 ### `npm run build`
 
     Builds the app for production
+
+### JSX React
+
+- JSX is not HTML inside JavaScript
+- HTML-like or XML-like syntax
+
+### Babel
+
+- JavaScript transpiler
+- Convert JSX to React code
+
+```
+React.createElement => Object => HTMLElement(render)
+
+JSX (transpiled before it reaches the JS Engine) => PARCEL => Babel
+
+JSX =>Babel transpiles it to React.createE lement => ReactElement (JS Object) => HTMLElement (render)
+```
+
+### React Component
+
+- Everything is component in react
+- Class Based Component - OLD
+- Functional Component - NEW (function which returns some piece of JSX code)
+- Component Composition - passing components to other components
+
+### React Fragment
+
+```
+`<React.Fragment></React.Fragment> | <></>`
+
+```
