@@ -76,6 +76,58 @@ JSX =>Babel transpiles it to React.createE lement => ReactElement (JS Object) =>
 ### React Fragment
 
 ```
-`<React.Fragment></React.Fragment> | <></>`
+<React.Fragment></React.Fragment> | <></>
 
+```
+
+## chapter 04 - Talk is cheap, show me the code
+
+### 🍜food ordering app
+
+`Component`
+
+- Headder
+  - Logo
+  - Nav items
+- Body
+  - Search
+  - RestaurantContainer
+    - Restaurant card
+      - Image
+      - Star rating
+      - Cuisine
+      - Delivery time
+- Footer
+  - Copyright
+  - Links
+  - Address
+  - Contact
+
+```
+Inline styling
+
+    style={{backgroundColor: "#f0f0f0"}}
+```
+
+### Props
+
+- a way to pass data from a parent component to a child component in React
+- normal arguments to a function
+
+### Config Driven UI
+
+- Instead of writing fixed code for each UI element, the UI is defined and controlled by data
+
+### Reusable component
+
+- component that can be used multiple times throughout an application with different data or configurations.
+
+### Why we need key
+
+- Each component needs its own special ID that makes it stand out and be recognized as unique.
+- If a unique key is not provided to components in React, they may be re-rendered unnecessarily.
+- It is not recommended to use indexes as keys in React components
+
+```
+  !Key (!Acceptable) <<<< Index as key <<<< Unique id
 ```
