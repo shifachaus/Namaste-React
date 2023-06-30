@@ -1,6 +1,3 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-
 const resList = [
   {
     cardType: "restaurant",
@@ -1633,81 +1630,4 @@ const resList = [
   },
 ];
 
-const Header = () => {
-  return (
-    <section className="border">
-      <div className="header container">
-        <div className="logo__container">
-          <img
-            className="logo"
-            src="https://www.logodesign.net/logo/smoking-burger-with-lettuce-3624ld.png"
-          />
-        </div>
-        <nav>
-          <ul className="nav__list">
-            <li>Home</li>
-            <li>About us</li>
-            <li>Contact us</li>
-            <li>Cart</li>
-          </ul>
-        </nav>
-      </div>
-    </section>
-  );
-};
-
-const RestaurantCard = ({ resData }) => {
-  const {
-    name,
-    cloudinaryImageId,
-    costForTwo,
-    cuisines,
-    avgRating,
-    deliveryTime,
-  } = resData.data.data;
-
-  return (
-    <div
-      className="res__card"
-      style={{
-        backgroundColor: "#f0f0f0",
-      }}
-    >
-      <img
-        className="res__img"
-        src={`https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/${cloudinaryImageId}`}
-        alt="res__logo"
-      />
-      <h5 style={{ color: "red" }}> ₹{costForTwo / 100} FOR TWO</h5>
-      <h3>{name}</h3>
-      <h4> {cuisines.join(", ")}</h4>
-      <h5>{avgRating}⭐</h5>
-      <h5>{deliveryTime} minutes</h5>
-    </div>
-  );
-};
-
-const Body = () => {
-  return (
-    <section className="container ">
-      <div className="search">Search</div>
-      <div className="res__container  ">
-        {resList.map((restaurant) => (
-          <RestaurantCard key={restaurant.data.data.id} resData={restaurant} />
-        ))}
-      </div>
-    </section>
-  );
-};
-
-const AppLayoutComponent = () => {
-  return (
-    <div className="app  ">
-      <Header />
-      <Body />
-    </div>
-  );
-};
-const root = ReactDOM.createRoot(document.getElementById("root"));
-
-root.render(<AppLayoutComponent />);
+export default resList;

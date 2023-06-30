@@ -131,3 +131,42 @@ Inline styling
 ```
   !Key (!Acceptable) <<<< Index as key <<<< Unique id
 ```
+
+## Let's get hooked
+
+### Two types of Export/Import
+
+- Default Export/Import
+  export default Component
+  import Component from "path"
+
+- Named Export/Import
+  export const Component
+  import {Component} from "path"
+
+### React Hooks
+
+- Normal JavaScript utility functions
+- useState() - Superpowerful state variable in react (sync UI)
+- useEffect()
+
+```
+  import { useState } from "react";
+  const [state, setState] = useState("set initial value")
+
+  Whenever a state variable updates React Re-render the componet
+```
+
+### React
+
+- It makes developer experience easy
+- Write less code do more
+- Find out the diffrence between two Virtual Dom and update the UI
+- It has Diff algorithm
+- Effecient DOM manupulation (Virtual Dom)
+
+React uses `Reconcialiation Algorithm` (React Fibre)
+React create Virtual Dom
+
+- not an actual dom but a representation of actual dom
+- React.createElement => Object
