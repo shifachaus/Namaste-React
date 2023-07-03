@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { LOGO__URL } from "../Utils/constants";
 
 const Header = () => {
+  const [auth, setAuth] = useState(false);
   return (
     <section className="border">
       <div className="header container">
@@ -13,6 +15,14 @@ const Header = () => {
             <li>About us</li>
             <li>Contact us</li>
             <li>Cart</li>
+            <button
+              className="login"
+              onClick={() => {
+                setAuth(!auth);
+              }}
+            >
+              {auth ? "logout" : "Login"}
+            </button>
           </ul>
         </nav>
       </div>

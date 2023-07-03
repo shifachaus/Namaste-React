@@ -34,7 +34,8 @@
   /* padding: 0.2em; */
 }
 
-.res__container {
+.res__container,
+.shimmer__container {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1em;
@@ -60,25 +61,77 @@
   margin-bottom: 0.6em;
 }
 
-.filter__btn {
-  padding: 0.3em;
+.filter {
+  display: flex;
   margin-top: 1em;
   margin-bottom: 1em;
+  align-items: center;
+  gap: 1em;
+}
+
+.res__container,
+.search__box,
+.search__btn {
+  padding: 0.3em;
+}
+
+.filter__btn {
+  padding: 0.3em;
   cursor: pointer;
   background-color: transparent;
   border: 1px solid #000;
 }
 
+.shimmer__card {
+  margin-top: 1em;
+  height: 300px;
+  width: 350px;
+  animation: shimmer 15s ease infinite;
+  background: #ddd;
+  background: linear-gradient(to right, #f6f6f6 8%, #f0f0f0 18%, #f6f6f6 33%);
+}
+
+@-webkit-keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -800px 0;
+  }
+
+  100% {
+    background-position: 800px 0;
+  }
+}
+
 @media (min-width: 500px) {
-  .res__container {
+  .res__container,
+  .shimmer__container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1em;
   }
 }
 
+.login {
+  padding: 0.3em;
+  border: 1px solid #000;
+  background-color: transparent;
+  cursor: pointer;
+}
+
 @media (min-width: 800px) {
-  .res__container {
+  .search__box {
+    width: 220px;
+  }
+  .res__container,
+  .shimmer__container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 1em;
@@ -86,7 +139,8 @@
 }
 
 @media (min-width: 1000px) {
-  .res__container {
+  .res__container,
+  .shimmer__container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 1em;

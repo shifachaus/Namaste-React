@@ -144,17 +144,15 @@ Inline styling
   export const Component
   import {Component} from "path"
 
-### React Hooks
+### React Hooks (useState)
 
 - Normal JavaScript utility functions
 - useState() - Superpowerful state variable in react (sync UI)
-- useEffect()
 
 ```
   import { useState } from "react";
   const [state, setState] = useState("set initial value")
 
-  Whenever a state variable updates React Re-render the componet
 ```
 
 ### React
@@ -163,10 +161,44 @@ Inline styling
 - Write less code do more
 - Find out the diffrence between two Virtual Dom and update the UI
 - It has Diff algorithm
-- Effecient DOM manupulation (Virtual Dom)
+- React Fibre is a new Reconcialiation process to efficiently manipulate the DOM (Virtual Dom)
 
 React uses `Reconcialiation Algorithm` (React Fibre)
 React create Virtual Dom
 
 - not an actual dom but a representation of actual dom
 - React.createElement => Object
+
+## Exploring the
+
+- Making an API call
+- Optional Chaining (Handling data)
+- Shimmer UI (For UX)
+- Conditional Rendering
+- Events (onClick, onChange)
+
+### React Hooks (useEffect)
+
+useEffect is used to handle side effects like fetching data or subscribing to events.
+
+- makes an API call after the render is done
+- fetch (super power which JS engine has)
+
+```
+  import { useEffect } from "react";
+  useEffect(()=>{
+    console.log("useEffect Called")
+  },[dependencies])
+
+```
+
+### cors policy
+
+When your browser blocks you from calling an API from one origin to a different origin
+
+```
+  useState() is a special React variable,
+
+  Whenever a state variable updates React (Triggers a Reconciliation cycle) Re-render the componet
+
+```
