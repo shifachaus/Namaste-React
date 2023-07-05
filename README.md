@@ -58,13 +58,13 @@ To run or build a project find scripts in package.json
 - JavaScript transpiler
 - Convert JSX to React code
 
-```
-React.createElement => Object => HTMLElement(render)
+  ```
+  React.createElement => Object => HTMLElement(render)
 
-JSX (transpiled before it reaches the JS Engine) => PARCEL => Babel
+  JSX (transpiled before it reaches the JS Engine) => PARCEL => Babel
 
-JSX =>Babel transpiles it to React.createE lement => ReactElement (JS Object) => HTMLElement (render)
-```
+  JSX =>Babel transpiles it to React.createE lement => ReactElement (JS Object) => HTMLElement (render)
+  ```
 
 ### React Component
 
@@ -98,16 +98,17 @@ JSX =>Babel transpiles it to React.createE lement => ReactElement (JS Object) =>
       - Cuisine
       - Delivery time
 - Footer
+
   - Copyright
   - Links
   - Address
   - Contact
 
-```
-Inline styling
+  ```
+  Inline styling
 
-    style={{backgroundColor: "#f0f0f0"}}
-```
+      style={{backgroundColor: "#f0f0f0"}}
+  ```
 
 ### Props
 
@@ -128,11 +129,11 @@ Inline styling
 - If a unique key is not provided to components in React, they may be re-rendered unnecessarily.
 - It is not recommended to use indexes as keys in React components
 
-```
-  !Key (!Acceptable) <<<< Index as key <<<< Unique id
-```
+  ```
+    !Key (!Acceptable) <<<< Index as key <<<< Unique id
+  ```
 
-## Let's get hooked
+## chapter 05 - Let's get hooked
 
 ### Two types of Export/Import
 
@@ -149,11 +150,11 @@ Inline styling
 - Normal JavaScript utility functions
 - useState() - Superpowerful state variable in react (sync UI)
 
-```
-  import { useState } from "react";
-  const [state, setState] = useState("set initial value")
+  ```
+    import { useState } from "react";
+    const [state, setState] = useState("set initial value")
 
-```
+  ```
 
 ### React
 
@@ -169,7 +170,7 @@ React create Virtual Dom
 - not an actual dom but a representation of actual dom
 - React.createElement => Object
 
-## Exploring the
+## chapter 06 - Exploring the world
 
 - Making an API call
 - Optional Chaining (Handling data)
@@ -184,13 +185,13 @@ useEffect is used to handle side effects like fetching data or subscribing to ev
 - makes an API call after the render is done
 - fetch (super power which JS engine has)
 
-```
-  import { useEffect } from "react";
-  useEffect(()=>{
-    console.log("useEffect Called")
-  },[dependencies])
+  ```
+    import { useEffect } from "react";
+    useEffect(()=>{
+      console.log("useEffect Called")
+    },[dependencies])
 
-```
+  ```
 
 ### cors policy
 
@@ -200,5 +201,175 @@ When your browser blocks you from calling an API from one origin to a different 
   useState() is a special React variable,
 
   Whenever a state variable updates React (Triggers a Reconciliation cycle) Re-render the componet
+
+```
+
+## chapter 07 - Finding the path
+
+### useEffect hook
+
+    If no dependency array is passed to `useEffect`, the effect will be called on every render of the component.
+
+    If dependency array is empty `[]` then the useEffect will be called on initial render(just once)
+
+    If you pass a value in the dependency array of `useEffect`, the effect will be called every time that value changes
+
+### useState hook
+
+    Never create `useState` hook outside of your React component
+
+    Used to create `local state variable` in the `function components`
+
+    the `useState` hook should be called at the top level of your functional component
+
+    Don't create `useState` hook inside an `if-statement`
+
+### react-router-dom library
+
+- Routing configuration (createBrowserRouter)
+- Provide router (RouterProvider)
+- gives us an access to useRouterError
+- Outlet (This allows nested UI to show up when child routes are rendered.)
+- Link (Navigate to different route)
+
+  ```
+    import { createBrowserRouter, RouterProvider, useRouteError, Outlet, Link } from "react-router-dom";
+  ```
+
+### SINGLE PAGE APPLICATION (SPA)
+
+- Changing the component
+- Not reoading the page
+
+### Two types of routing in web apps
+
+- Client Side Routing
+- Server Side Routing - making network calls
+
+## chapter 08 - Let's get Classy
+
+- Class based component (old way)
+
+  - Normal JS class
+  - extends makes react know this is the class component
+  - React.Component is a class given by React
+  - render() method return some piece of `jsx`
+  - The Constructor is a special function that receives the props
+
+  - super()
+
+    - It is used to call the constructor of its parent class.
+    - This is required when we need to access some variables of its parent class.
+
+  - Props
+
+    - properties
+    - Used for passing data from one component to another
+    - Props data is read-only, which means that data coming from the parent should not be changed by child components.
+
+  - this.props
+
+    - If we want to use `this.props` inside the constructor we need to pass it with the `super()` function.
+
+  - when an instance of a class is created, the constructor is called.
+
+  - state variables
+
+    - Create inside `Constructor`
+    - update state varibale
+
+      - this.setState({
+        count: this.state.count + 1,
+        });
+
+    - Never update state variables directly
+      - this.state.count = this.state.count + 1
+
+  - Life cycle method
+
+    - Mounting/Loading the component
+
+      - start loading class component
+      - new instance of a class is created
+
+        1. first the constructor is called
+        2. the render method is called
+
+    - componentDidMount()
+
+      - Called once the component has beed mounted
+      - Used to make an API call
+      - Quickly render component then make and an Api call
+
+```
+  class UserClass extends React.Component {
+
+        constructor(props) {
+          super(props);
+          console.log(props);
+
+          this.state = {
+          count: 0,
+          count2: 1,
+          };
+
+        }
+
+        render() {
+          return (<div className="user__card">
+            <h1>Count: {this.state.count}</h1> //state variable
+            <p>{this.props.name}</p>
+          </div>);
+        }
+      }
+
+  export default UserClass
+```
+
+1. Mounting (dummy data)
+   Mounted in 2 phases
+
+   - Render Phase
+
+     - constructor (dummy data)
+     - Render (dummy data)
+
+   - Commit Phase
+
+     - Update the DOM - <HTML Dummy>
+     - componentDidMount() - make an api call
+     - <this.setState> - state variable is update
+
+2. Updating
+
+   - Render (Api Data)
+   - <HTML> (new Api Data)
+   - call componentDidUpdate()
+
+3. Unmounting
+
+   - componentWillUnmount()
+   - removing from the UI
+
+```
+    Parent Component
+
+      Parent Constructore
+      Parent render
+
+        Child Component (Multiple children)
+
+          First Child Constructore
+          First Child render
+
+          Second Child Constructore
+          Second Child render
+
+         // DOM UPDATED - IN SINGLE BATCH
+
+          First child component Did Mount
+          Second child component Did Mount
+
+    Parent component Did Mount
 
 ```
