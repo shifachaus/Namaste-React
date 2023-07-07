@@ -24,9 +24,9 @@
     - Tree Shaking - remove unused code
     - Different Dev and Production bundles
 
-### `npx parcel index.html`
+### To run a project
 
-    To run a project
+npx parcel index.html
 
 ## chapter 03 - Laying the foundation
 
@@ -292,14 +292,15 @@ When your browser blocks you from calling an API from one origin to a different 
       - start loading class component
       - new instance of a class is created
 
-        1. first the constructor is called
-        2. the render method is called
+        1. the constructor is called
+        2. then, the render method is called
 
     - componentDidMount()
 
       - Called once the component has beed mounted
       - Used to make an API call
       - Quickly render component then make and an Api call
+      - componentDidMount supports being async
 
 ```
   class UserClass extends React.Component {
@@ -371,5 +372,103 @@ When your browser blocks you from calling an API from one origin to a different 
           Second child component Did Mount
 
     Parent component Did Mount
+
+```
+
+### Why we should not use async keyword with useEffect?
+
+- React's useEffect hook expects a cleanup function returned from it which is called when the component unmounts.
+- Using an async function here will cause a bug as the cleanup function will never get called.
+
+```
+  useEffect(async () => {
+    console.log('Hi :)')
+
+    return () => {
+      console.info('Bye!') // It won't run
+    };
+  }, []);
+
+```
+
+## chapter 09 - Optimizing our App
+
+### **Single responsibility principle**
+
+- component should have a single responsibility
+- suppose we have a component `restaurantMenu` the job of this component is to displaying the menu
+- this is the good way of maintaining the code in madular fashion
+
+- **Modularity**
+
+  - breaking code into small, reusable modules
+  - improves maintainability, reusability and testability
+
+### Custom hooks
+
+- hooks are just a normal JavaScript function
+- but custom hooks are special function which are given to us by react
+- React provides several built-in hooks, such as `useState`, `useEffect`and `useParams`
+- hooks are utility/helper function
+- The function name should start with the word "use" to indicate that it is a hook.
+
+```
+  const useRestaurantMenu = (input ) => {
+
+    return output;
+  };
+
+  export default useRestaurantMenu;
+
+```
+
+### Optimizing
+
+the size of a JavaScript file increases with the number of components it holds.
+
+- create a smaller bundle of JavaScript
+  - Chuncking
+  - Code Spliting
+  - Dynamic Bundling
+  - Lazy Loading
+  - On Demand Loading
+
+```
+  import React, { lazy, Suspense } from "react";
+
+  const ReactComponent = lazy(() => import("path"));
+
+  //Error:
+  component suspended while responding to synchronous input
+```
+
+Lazy loading components with Suspense
+
+```
+
+  {
+    path: "/grocery",
+    element: (
+          <Suspense>
+            <Grocery />
+          </Suspense>
+        ),
+  },
+
+```
+
+fallback:
+what should it load when the component code is not available
+
+```
+
+ {
+    path: "/grocery",
+    element: (
+          <Suspense fallback={<p>Loading...<p/>}>
+            <Grocery />
+          </Suspense>
+        ),
+  },
 
 ```
