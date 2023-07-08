@@ -472,3 +472,96 @@ what should it load when the component code is not available
   },
 
 ```
+
+## chapter 10 - Jo dikhta hai, vo bikta hai
+
+### Ways of writing css
+
+1. **sass** - advance css
+2. **Styled Components**
+3. **Material UI** - react component library
+4. **Bootstrap**
+5. **Chakra UI**
+6. **Ant Design**
+
+### Style the Component using [Tailwind CSS](https://tailwindcss.com/docs/installation)
+
+**Configure tailwind**
+
+- Getting Started
+- Framework Guides
+- Parcel
+- Installation
+- Tailwind CSS with Parcel
+
+**Install Tailwind CSS**
+
+```
+ npm install -D tailwindcss postcss
+ npx tailwindcss init
+```
+
+**`postcss`**
+
+- a tool for transforming CSS with JS
+- tailwindcss uses postcss behind scene
+
+When we execute the package using `npx tailwindcss init`
+it will create a `tailwing.config.js` file for us
+
+- create .postcssrc file
+  add⬇️
+
+  ```
+  {
+    "plugins": {
+      "tailwindcss": {} //It's way to understand what is writen inside tailwind
+    }
+  }
+
+  ```
+
+Parcel(Bundler) need to use .postcssrc file to read tailwind
+
+**Configure your template paths**
+
+```
+  content: [
+    "./src/**/*.{html,js,ts,jsx,tsx}",
+  ],
+
+```
+
+Now our project will track the tailwind classes and understand it
+
+**Importing tailwind into index.css file**
+
+```
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+```
+
+- Done the configuration
+
+### How Tailwind CSS works:
+
+- Utility Classes: Tailwind CSS provides a utility classes that represent various CSS properties
+
+```
+<div class="bg-blue-500 text-white text-center p-4">Hello</div>
+```
+
+### PROS:
+
+- we don’t need to switch between the css and html
+- we can easily customize according to our needs.
+- light-weight (import one class) : When Parcel builds a bundle for CSS, it analyzes your code and includes only the CSS that is required for the specific web page.
+- keep the bundle size small
+-
+
+### CONS:
+
+- less readable, markup becomes more verbose.
+- we need to implement everything from scratch
+- you have to know pre-defined classes used in tailwind CSS.

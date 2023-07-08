@@ -7,15 +7,16 @@ const Header = () => {
 
   const onlineStatus = useOnlineStatus();
   return (
-    <section className="border">
-      <div className="header container">
+    <section className="flex border border-purple-200 shadow-md">
+      <div className="flex justify-between items-center w-[90%] max-w-7xl my-0 mx-auto">
         <div className="logo__container">
-          <img className="logo" src={LOGO__URL} />
+          <Link to="/">
+            <img className="w-40" src={LOGO__URL} />
+          </Link>
         </div>
-        <nav>
-          <ul className="nav__list">
+        <nav className="hidden md:inline">
+          <ul className="flex gap-4">
             <li>Online Status:{onlineStatus ? "🟢" : "🔴"}</li>
-
             <li>
               <Link to="/">Home</Link>
             </li>

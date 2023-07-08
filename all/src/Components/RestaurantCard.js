@@ -11,22 +11,23 @@ const RestaurantCard = ({ resData }) => {
   } = resData.data.data;
 
   return (
-    <div
-      className="res__card"
-      style={{
-        backgroundColor: "#f0f0f0",
-      }}
-    >
-      <img
-        className="res__img"
-        src={CDN__URL + cloudinaryImageId}
-        alt="res__logo"
-      />
-      <h5 style={{ color: "red" }}> ₹{costForTwo / 100} FOR TWO</h5>
-      <h3>{name}</h3>
-      <h4> {cuisines.join(", ")}</h4>
-      <h5>{avgRating}⭐</h5>
-      <h5>{deliveryTime} minutes</h5>
+    <div className="mx-auto max-w-2xl   px-4  sm:px-3 sm:py-3  hover:bg-slate-100 flex flex-col gap-4 ">
+      <div className="aspect-h-1 aspect-w-1 w-full  ">
+        <img
+          className="h-full w-full object-cover object-center group-hover:opacity-75"
+          src={CDN__URL + cloudinaryImageId}
+          alt="res__logo"
+        />
+      </div>
+      <div>
+        <h2 className="text-lg text-gray-900 font-medium">{name}</h2>
+        <p className="text-sm text-gray-500"> {cuisines.join(", ")}</p>
+      </div>
+      <div className="flex justify-between align-center">
+        <p className="text-xs text-gray-500">⭐{avgRating}</p>
+        <p className="text-xs text-gray-500">{deliveryTime} minutes</p>
+        <p className="text-xs text-gray-500"> ₹{costForTwo / 100} FOR TWO</p>
+      </div>
     </div>
   );
 };

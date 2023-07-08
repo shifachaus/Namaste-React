@@ -34,25 +34,26 @@ const Body = () => {
   }
 
   return (
-    <section className="container ">
+    <section className="w-[90%] max-w-7xl my-0 mx-auto mb-8 ">
       {!onlineStatus && (
         <h3>
           Looks like you're offline!! please check your internet connection
         </h3>
       )}
+
       {/* Conditional Rendering */}
       {listOfRestaurants.length === 0 && <Shimmer />}
-      <div className="filter">
-        <div className="Search">
+      <div className="flex flex-col gap-6 mt-6 mb-6 md:flex-row">
+        <div>
           <input
             type="text"
-            className="search__box"
-            placeholder="search for restaurants and food"
+            className="   border-purple-300  cursor-pointer bg-white py-2 px-4  shadow-md flex-grow outline-none bg-transparent"
+            placeholder="search for restaurants"
             value={searchText}
             onChange={(e) => SetSearchText(e.target.value)}
           />
           <button
-            className="search__btn"
+            className=" text-purple-500  border-purple-300  cursor-pointer bg-white py-2 px-2 shadow-md hover:shadow-xl"
             onClick={() => {
               //Filter the restaurant cards and update the UI
               // searchText
@@ -74,12 +75,12 @@ const Body = () => {
             );
             setfilteredRestaurant(filteredList);
           }}
-          className="filter__btn"
+          className="text-purple-500  border-purple-300 cursor-pointer bg-white py-2 w-44  shadow-md hover:shadow-xl"
         >
           Top Rated Restaurants
         </button>
       </div>
-      <div className="res__container  ">
+      <div className="grid  grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4 bg-white">
         {filteredRestaurant?.map((restaurant) => (
           <Link
             key={restaurant?.data?.data?.id}

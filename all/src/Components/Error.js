@@ -3,7 +3,7 @@ const Error = () => {
   const err = useRouteError();
 
   return (
-    <div>
+    <div className="w-[90%] max-w-7xl my-0 mx-auto">
       <h2>oops!!</h2>
       <h3>Something went wrong</h3>
       <h4>
