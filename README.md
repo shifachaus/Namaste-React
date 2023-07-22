@@ -565,3 +565,335 @@ Now our project will track the tailwind classes and understand it
 - less readable, markup becomes more verbose.
 - we need to implement everything from scratch
 - you have to know pre-defined classes used in tailwind CSS.
+
+## chapter 11 - Data is the new Oil
+
+🌟**UI layer is powered by Data layer**
+
+### higher order component
+
+- _A Higher-Order Component (HOC) is a design pattern used in React_
+
+- _A Higher-Order Component is a function that takes a component as input and returns a new component with additional functionality or props._
+
+- _HOC is a pure function_
+
+- _The purpose of HOCs is to enhance the behavior or appearance of a component without modifying the component itself_
+
+```
+
+    const RestaurantCard=()=>{
+      return(<div>Restaurant Card</div>)
+    }
+    export const withPromotedLabel = (RestaurantCard) => {
+      return () => {
+        return (
+          <div>
+            <label>promoted</label>
+            <RestaurantCard />
+          </div>
+        );
+      };
+    };
+
+    export default RestaurantCard
+
+
+    import RestaurantCard, { withPromotedLabel } from "path";
+
+    const RestaurantCardPromoted = withPromotedLabel(RestaurantCard);
+
+
+```
+
+<!-- render restaurant card component but if the restaurant is promoted then it will render the new promoted card component
+
+withPromotedLabel is Higher order component we have passed RestaurantCard in it, it will return us new component which has label inside it -->
+
+### Data Layer and UI Layer
+
+🌟`Handling data is crucial part of building an application`
+
+**UI layer**
+
+- things which are visible on the web page (View)
+
+**Data layer**
+
+- responsible for managing and storing data within the application
+
+<!-- babel convert jsx to object(virtual Dom)
+Role of virtual dom - reconciliation -->
+
+**props**
+
+- passing data from a parent component to its child components
+- They are immutable (once set, their values cannot be modified by the child component)
+- Props are read-only for the child components
+
+- **state**
+
+- local varibale
+- it can be passed as a props
+- manage and store mutable data within a component
+- can be changed or updated by the component itself
+
+### Controlled and Uncontrolled Components
+
+**Controlled**
+
+- rely on their parent to manage their state
+- The parent component passes down the value and any event handlers required for the controlled component as props
+
+**Uncontrolled**
+
+- they Don't rely on their parent components to manage their state
+- maintain their own internal state
+
+🌟**_components do not share state with each other_**
+
+### **Lifting the state up**
+
+_Lifting up the state we make the state of the parent component as a single source of truth and pass the data of the parent in its children_
+
+- Each Component Maintains its Own State
+- Components Cannot Directly Modify the State of Another Sibling Component
+- Maintaining State in Parent Component
+- Parent Component Having Control Over State
+<!--
+
+
+- All the component maintain it's own state (copy of state)
+
+- cannot directly modify the state of another sibling component
+- Instead of each component maintain their own state we can maintain their state in parent component
+- Now parent will have control over state -->
+
+### Props Drilling
+
+_Passing data from a parent component to a child component_
+
+- makes your code cluttered
+
+```
+  <AppLayout/>
+   - (user)//state
+    <Body user={user}/>
+      <RestaurantCard user={user}/>
+      <RestaurantCard user={user}/>
+        <h4>{user}</h4>
+```
+
+<!-- ### Handle data
+
+- the data flow between components is unidirectional (one way)
+  Central space - to store data
+  Shared state for whole app
+  Any component can use that data
+
+- Context Api
+- Redux
+- flux
+- mobx
+- ngrx (angular) -->
+
+### 🌟Context
+
+_create a central data store that holds shared data, allowing any component in the application to access that data without the need for prop passing_
+
+- object or some piece of data
+- avoid prop drilling
+- global space, any component can access it
+
+1. **Create a Context**
+
+- `createContext` is a function
+- context will hold the shared data (default value for context)
+
+```
+import { createContext } from "react";
+
+const UserContext = createContext({
+  user: {
+    name: "Dummy Name",
+    email: "dummy@gmail.com",
+  },
+});
+
+export default UserContext;
+```
+
+2. **Set Up the Provider**
+
+- Every Context object comes with a Provider React component that allows consuming components to subscribe to context changes
+- The Provider component accepts a value prop
+<!--
+
+**UserContext.Provider**
+
+- Modifying the UserContext using a Provider
+- modify the state value - value={user}
+- Override the default value
+- Wrap the component with UserContext.Provider to access value -->
+
+🌟 **The default value of a context can be overridden by the value provided by the `Provider`**
+
+3. **Accessing the Shared Data**
+
+- use the `useContext` hook to access the data from the context
+
+```
+import {  useContext } from "react";
+import UserContext from "path";
+
+const user = useContext(UserContext);
+```
+
+🌟 **We can have multiple context in our App**
+
+- cart context
+- userInfo context
+- rating context
+
+_state and props are tide to to individual components_
+_context is seperate and allows data to be shared and accessed by multiple components_
+
+<!-- - data which is require to our app in diff. palaces
+- useState for whole app
+- data store -->
+
+🌟 **Class component do not have access to React hooks.**
+
+<!-- To use the useContext hook in a class component use `Context.Consumer` component it returns some JSX which takes a callback function this fucntion will have access to context value -->
+
+```
+import UserContext from "../Utils/UserContext";
+
+ <UserContext.Consumer>
+    {(value) => console.log(value)} //object
+  </UserContext.Consumer>
+```
+
+<!-- 🌟*display name for debugging* -->
+
+<!--
+```
+State
+ const [user, setUser] = useState({
+    name: "abc",
+    email: "abc@gmail.com",
+  });
+
+Context
+  <UserContext.Provider value={{ user: user , setUser:setUser}}>
+        <Header />
+        <Outlet />
+  </UserContext.Provider>
+
+  Get user
+  const {user, setUser} = useContext(UserContext);
+```
+
+
+```
+UserContext.displayName = "UserContext";
+```
+
+🌟🌟🌟
+_Even when the code is not loaded context will update the state_
+_UI layer is different from Data layer_
+_UI layer Does all the work of reconciation and rendering the component_
+_On refresh it will reset the value_ -->
+
+<!--
+## chapter 12 - Let's build our store
+- scalable
+
+
+
+1. _Create store used `configureStore()` -> import from RTK_
+2. _Provide my store to app -> `<Provider store={store}></Provider>` -> import from react-redux_
+3. _Slice used `createSlice()` ->import from RTK _
+
+```
+  createSlice({
+    name:"",
+    initialState:[],
+    reducers:{
+      addItem(action): (state, action)=>{
+      //Won't return anything
+      state = action.payload
+      }(reducer function)
+    }
+  })
+```
+
+4. _export reducer and action_
+
+```
+  // Named export
+    export const { addItem, removeItem, clearCart } = cartSlice.actions;
+
+  // export default
+    export default cartSlice.reducer;
+  // _combine all the reducers to export _
+```
+
+🌟🌟
+_whenever you create a slice it will return a object contain something known as reducer, actions_
+
+5. _Put the `Slice` into store_
+
+```
+  import { configureStore } from "@reduxjs/toolkit";
+  import cartSlice from "./cartSlice";
+
+  const store = configureStore({
+    reducer: {
+      cart: cartSlice,
+    },
+  });
+
+  export default store;
+```
+
+6. _subscribe to store -> import `useSelector` from react-redux_
+   it gives you access to the store
+
+```
+  import { useSelector } from "react-redux";
+  const cartItems = useSelector((store) => store.cart.item);
+
+```
+
+7. _Dispatch and action and pass the payload_
+
+```
+  import {addItem} from "path";
+  import {useDispatch} from react-redux;
+
+  const dispatch = useDispath()
+  dispatch(addItem("Grapes"))
+
+```
+
+- _creating a store the Api comes from RTK (for store)_
+- _Provider, useSelector, useDispatch comes from react-redux (components uses it)_
+
+**useSelector is used to subscribe to store**
+_Only subscribe to specific portion of the slice_
+
+🌟🌟🌟
+
+_When I click on add button it dispatches an action which calls the reducer fucntion which updates the slice of the store_
+
+_then, cart (UI) is subscribe to store using useSelector and it will update automagically_
+
+_React is triggering its reconciation process also_
+
+
+
+middlewares
+thunks
+rtk query
+  -->

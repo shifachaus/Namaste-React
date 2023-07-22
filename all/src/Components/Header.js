@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { LOGO__URL } from "../Utils/constants";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../Utils/useOnlineStatus";
+import UserContext from "../Utils/UserContext";
+import { useSelector } from "react-redux";
+
 const Header = () => {
   const [auth, setAuth] = useState(false);
+  const { user } = useContext(UserContext);
+
+  console.log(user);
 
   const onlineStatus = useOnlineStatus();
+
+  const cartItems = useSelector((store) => store.cart.item);
+
   return (
     <section className="flex border border-purple-200 shadow-md">
       <div className="flex justify-between items-center w-[90%] max-w-7xl my-0 mx-auto">
@@ -14,9 +23,10 @@ const Header = () => {
             <img className="w-40" src={LOGO__URL} />
           </Link>
         </div>
-        <nav className="hidden md:inline">
+        <nav className=" md:inline">
           <ul className="flex gap-4">
-            <li>Online Status:{onlineStatus ? "🟢" : "🔴"}</li>
+            <p>{onlineStatus ? "🟢" : "🔴"}</p>
+
             <li>
               <Link to="/">Home</Link>
             </li>
@@ -30,8 +40,8 @@ const Header = () => {
             <li>
               <Link to="/grocery">Grocery</Link>
             </li>
-            <li>Cart</li>
-
+            <Link to="/cart">Cart {cartItems.length}</Link>
+            <p>{user.name}</p>
             <button
               className="login"
               onClick={() => {
