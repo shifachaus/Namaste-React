@@ -27,7 +27,8 @@ const AppLayoutComponent = () => {
 
     setUser(data);
   }, []);
-  console.log(user, "PP");
+
+  // console.log(user);
 
   return (
     <Provider store={store}>

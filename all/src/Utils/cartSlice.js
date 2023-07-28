@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 const cartSlice = createSlice({
   name: "cart",
@@ -7,15 +7,44 @@ const cartSlice = createSlice({
   },
   reducers: {
     addItem: (state, action) => {
-      state.item.push(action.payload);
+      let exists = state.item.find(
+        (r) => r?.card?.info?.id === action.payload?.card?.info?.id
+      );
+
+      if (exists) {
+        state.item = state.item.map((r) =>
+          r?.card?.info?.id === action.payload?.card?.info?.id
+            ? { ...exists, qty: exists?.qty + 1 }
+            : r
+        );
+      } else {
+        state.item.push({ ...action.payload, qty: 1 });
+      }
     },
 
     removeItem: (state, action) => {
-      state.item.filter((i) => i.id !== action.payload.id);
+      let exists = state.item.find(
+        (i) => i?.card?.info?.id === action.payload?.card?.info?.id
+      );
+
+      if (exists) {
+        state.item = state.item.map((r) =>
+          r?.card?.info?.id === action.payload?.card?.info?.id
+            ? { ...exists, qty: exists.qty - 1 }
+            : r
+        );
+      }
+
+      if (exists?.qty === 1) {
+        state.item = state.item.filter(
+          (r) => r?.card?.info?.id !== action.payload?.card?.info?.id
+        );
+      }
     },
 
     clearCart: (state) => {
-      state.item = [];
+      // state.item = [];
+      state.item.length = 0;
     },
   },
 });

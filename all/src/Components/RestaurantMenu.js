@@ -2,23 +2,16 @@ import Shimmer from "./Shimmer";
 import { useParams } from "react-router-dom";
 
 import useRestaurantMenu from "../Utils/useRestaurantMenu";
-import { useDispatch } from "react-redux";
-import { addItem } from "../Utils/cartSlice";
 import RestaurantCategory from "./RestaurantCategory";
 import { useState } from "react";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
-  const dispatch = useDispatch();
+
   const [showIndex, setShowIndex] = useState(null);
 
   // Custom hook
   const resInfo = useRestaurantMenu(resId);
-
-  const addFoodItem = (item) => {
-    console.log(item);
-    dispatch(addItem(item));
-  };
 
   const category =
     resInfo?.cards[3]?.groupedCard?.cardGroupMap?.REGULAR?.cards?.filter(
@@ -30,7 +23,7 @@ const RestaurantMenu = () => {
   // console.log(category);
 
   return (
-    <div className=" w-[90%] max-w-4xl my-0 mx-auto mt-6 mb-6">
+    <div className=" w-[90%] max-w-4xl my-0 mx-auto mt-6 mb-6 ">
       {resInfo === null && <Shimmer />}
       <div className="w-[90%] max-w-4xl my-0 mx-auto mt-6 mb-6">
         <div className="py-2">

@@ -8,7 +8,7 @@ const RestaurantCard = ({ resData }) => {
     cuisines,
     avgRating,
     deliveryTime,
-  } = resData.data.data;
+  } = resData?.info;
 
   return (
     <div className="mx-auto max-w-2xl   px-4  sm:px-3 sm:py-3  hover:bg-slate-100 flex flex-col gap-4 ">
@@ -33,7 +33,6 @@ const RestaurantCard = ({ resData }) => {
 };
 
 // HOC =>Higher Order Function
-
 export const withPromotedLabel = (RestaurantCard) => {
   return (props) => {
     return (

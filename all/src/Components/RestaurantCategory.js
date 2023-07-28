@@ -5,7 +5,7 @@ const RestaurantCategory = ({ data, showItems, setShowIndex }) => {
   //   console.log(data);
 
   function handleClick() {
-    console.log(showItems, "showItems");
+    // console.log(showItems, "showItems");
     setShowIndex();
   }
 

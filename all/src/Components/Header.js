@@ -9,11 +9,13 @@ const Header = () => {
   const [auth, setAuth] = useState(false);
   const { user } = useContext(UserContext);
 
-  console.log(user);
+  // console.log(user);
 
   const onlineStatus = useOnlineStatus();
 
+  //subscribing to store here
   const cartItems = useSelector((store) => store.cart.item);
+  // console.log(cartItems, "Header ITEMS");
 
   return (
     <section className="flex border border-purple-200 shadow-md">
@@ -40,8 +42,8 @@ const Header = () => {
             <li>
               <Link to="/grocery">Grocery</Link>
             </li>
-            <Link to="/cart">Cart {cartItems.length}</Link>
-            <p>{user.name}</p>
+            <Link to="/cart">Cart {cartItems?.length}</Link>
+            <p>{user?.name}</p>
             <button
               className="login"
               onClick={() => {
