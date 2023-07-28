@@ -762,9 +762,15 @@ _context is seperate and allows data to be shared and accessed by multiple compo
 - useState for whole app
 - data store -->
 
+### **How to use context in class based components?**
+
 🌟 **Class component do not have access to React hooks.**
 
-<!-- To use the useContext hook in a class component use `Context.Consumer` component it returns some JSX which takes a callback function this fucntion will have access to context value -->
+1. React gives a power of `Context.Consumer` for accessing context data.
+2. The "Context.Consumer" can be treated as a component
+3. Within the `Context.Consumer` you can define JSX along with a callback function
+
+- The callback function receives the context data as an argument, providing access to the context within the JSX defined in the function.
 
 ```
 import UserContext from "../Utils/UserContext";
@@ -805,25 +811,73 @@ _UI layer is different from Data layer_
 _UI layer Does all the work of reconciation and rendering the component_
 _On refresh it will reset the value_ -->
 
-<!--
 ## chapter 12 - Let's build our store
-- scalable
 
+- _REDUX IS NOT MANDATORY_
+- _Use for large scale applination where data is heavily used_
+- _Redux and React are different libraries_
+- _Redux offers easy debugging (chrome extension - redux dev tool )_
+- _Redux offers state management_
+- _`React-redux` (bridge the gap beetween react and redux), `React toolkit` libraries_
+- _Redux has huge initial learning curve_
 
+### Redux ToolKit (RTK)🌟
 
-1. _Create store used `configureStore()` -> import from RTK_
-2. _Provide my store to app -> `<Provider store={store}></Provider>` -> import from react-redux_
-3. _Slice used `createSlice()` ->import from RTK _
+- `redux store` - big js object kept in a global centric place
+- any component can access redux store
+- `slice` - part(small portion) of redux store
+  - cart slice
+  - user slice
+- cannot directly modify the slice
+
+🌟**Write data**
+
+**_➡️When you click on the add button ➡️ it dispatchs an action ➡️and then this action will call a function ➡️ this function internally modifies the cart slice_**
+
+- where, this function is know as `reducer`
+
+**_➡️ When you click on the add button ➡️ it dispatchs an action ➡️ which calls the reducer function ➡️ which modifies the slice of the redux store_**
+
+🌟**Read data**
+
+**_➡️To Read the data from the store use selector ➡️ and this selector will modify the React component_**
+
+**_`Selector `- sunscribing to the store (in sync), it will update the UI automagically as soon as store updates_**
+
+💡💡
+**Add ➡️ `dispatch` an action ➡️ call `reducer function` ➡️ updates the `slice` of the `store` ➡️ Header component is subscribed to the store using `selector`**
+
+1. _Create store using `configureStore()` ➡️ import from RTK_
+
+2. _Provide store to app ➡️`<Provider store={store}></Provider>` ➡️ import from react-redux_
+
+3. _Create Slice using `createSlice()` function ➡️ import from RTK_
+
+- createSlice() function takes a configuration
+  - name
+  - initial state
+  - reducers - object
+    - reducer function corresponding to each action (think of it like api to communicate with redux store )
+    - reducer function modify the slice of the store
+    - get access to `state` and `action`
+    - update the state based on action
+    - mutating the state directly
 
 ```
   createSlice({
     name:"",
-    initialState:[],
+    initialState:{
+      items :[]
+    },
     reducers:{
-      addItem(action): (state, action)=>{
-      //Won't return anything
-      state = action.payload
-      }(reducer function)
+      addItem(action): (state, action)={
+        //Won't return anything
+        //mutating the state here
+        state.items.push(action.payload)
+      },
+      removeItems:(state)=>{
+        state.items.pop()
+      }
     }
   })
 ```
@@ -839,34 +893,48 @@ _On refresh it will reset the value_ -->
   // _combine all the reducers to export _
 ```
 
-🌟🌟
+🌟💡💡🌟
 _whenever you create a slice it will return a object contain something known as reducer, actions_
 
 5. _Put the `Slice` into store_
 
+   - `reducer` - responsible to modify the store
+   - it contains small reducer of each slice
+
 ```
   import { configureStore } from "@reduxjs/toolkit";
-  import cartSlice from "./cartSlice";
+  import cartReducer from "./cartSlice";
 
   const store = configureStore({
     reducer: {
-      cart: cartSlice,
+      cart: cartReducer,
     },
   });
 
   export default store;
 ```
 
-6. _subscribe to store -> import `useSelector` from react-redux_
-   it gives you access to the store
+6. Read data
+   - subscribe to store -> import `useSelector`
+   - It s hook comes from react-redux library
+   - it gives you access to the store
 
 ```
   import { useSelector } from "react-redux";
+
+  //subscribing to store here
   const cartItems = useSelector((store) => store.cart.item);
 
 ```
 
-7. _Dispatch and action and pass the payload_
+7. Dispatch an action
+
+   - access dispatch which a is function get from useDispath hook
+   - useDispath hook comes from react-redux library
+   - Dispatch an action and which we had exported from cart slice
+   - pass the payload - action.payload
+
+   <!-- - redux will create object out of it 2nd argument  -->
 
 ```
   import {addItem} from "path";
@@ -877,7 +945,23 @@ _whenever you create a slice it will return a object contain something known as 
 
 ```
 
-- _creating a store the Api comes from RTK (for store)_
+<!--
+
+  - const cartItems = useSelector((store) => store.cart.item);
+  - 🌟make sure you are subscribibg to the rigth portion of the store
+
+  - const cartItems = useSelector((store) => store);
+  - performance loss
+  - very less efficient
+  - store variable update whenever there is change in small portion of the store
+  - whole store will update
+
+  - store - reducer - one big reducer can have multiple small reducers
+  - slice - reducers - multiple reducer function - export one reducer from it
+
+
+  ////////////////////
+  - _creating a store the Api comes from RTK (for store)_
 - _Provider, useSelector, useDispatch comes from react-redux (components uses it)_
 
 **useSelector is used to subscribe to store**
@@ -891,9 +975,37 @@ _then, cart (UI) is subscribe to store using useSelector and it will update auto
 
 _React is triggering its reconciation process also_
 
-
-
 middlewares
 thunks
 rtk query
-  -->
+
+ -->
+
+**_`store` - reducer - one reducer (big object ) can have multiple small reducers_**
+
+**_`slice` - reducers - multiple reducer function - export one reducer from it_**
+
+**Older redux - Don't mutate stata, returning was mandatory**
+**redux toolkit - we have to mutate the stata**
+
+**redux toolkit uses immer library BTS**
+**RTK - either Mutate th existing state or return the new state (Replace the Original State)**
+
+<!--
+
+**redux uses immer library - find the difference between original state and mutated state - gives ypu back new immutable state**
+
+current > draft > next
+
+deep clone - immutable copy
+
+```
+//clear cart
+state = [] //this won't work (local copy)
+no modifying the state , adding referance of it
+```
+{current} -> import from rtk
+console.log(current(state))
+
+return {items :[]} //new state
+-->
