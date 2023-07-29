@@ -2,6 +2,199 @@
 
 ## chapter 01 - Inception
 
+### _Emmet_
+
+- Visual Studio Code (VS Code) has built-in support for Emmet
+- Emmet allows you to use abbreviations and shortcuts to generate code snippets
+- For example, typing html:5 and then pressing Tab will generate the basic HTML5 skeleton
+
+### Hello World program in html
+
+```
+  html:5 - generate the basic HTML5 skeleton
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root">
+      <h1>Hello World</h1>
+    </div>
+  </body>
+  </html>
+```
+
+### Hello World program JavaScript
+
+```
+ <div id="root"></div>
+
+  <script>
+   //create h1 tag
+   const heading = document.createElement("h1)
+   heading.innerHTML ="Hello World from JS";
+
+   //get reference to the div tag
+   const root = document.getElementById("root")
+
+   //add
+   root.apppendChild(heading)
+  </script>
+```
+
+### Hello World program React
+
+- `React is js library at the end of the day is Just JavaScript`
+- `Browser do not understand react code`
+- `DOM manipulation is most costly operation`
+- `React gives us the power to manipuate the DOM`
+
+configure react
+
+1. **CDN React**
+
+   - content delivery networks
+   - CDN is a place where the react library is hosted
+   - fetching react from CDN link into our project
+   <!-- - gives you a lot of function to use -->
+   - two important CDN (Content Delivery Network) files related to React
+
+     1. `React (core file)`
+
+        - contains the core functionality of React
+        - responsible for building user interfaces
+        - managing component state, and handling component lifecycles
+
+     2. `ReactDOM`
+
+        - react library useful for DOM manipulation
+        - `ReactDOM` serves as the bridge between React and the browser's Document Object Model (DOM)
+
+- `React.createElement()`
+
+  - it is a method used to create a elements
+  - it is an object
+  - React.createElement() takes three arguments:
+
+    1. Element Type (Tag Name):
+
+    - what tag you need to create? 'h1', 'div', 'span'
+
+    2. Attributes Object (Props):
+
+    - an object that contains the attributes
+    - These attributes can include properties like className, id
+
+    3. Children Elements (Content):
+
+    - what we have put inside that tag
+
+- `ReactDOM.createRoot()`
+
+  - it is a method used to create a root
+  - root is the place all the react code will run
+
+  - use `ReactDOM.createRoot()` to create a root instance, and then we call the `render()` method on that root to render the App component inside the specified root element (with id="root").
+
+- `render()`
+  - responsible for converting the React elements `(created using React.createElement())` into browser-understandable elements
+  - render method can replaced the existing content inside the root element
+
+```
+  <script>
+
+    const heading = React.createElement("h1",{},"Hello World from React"); --> react element
+
+    const root = ReactDOM.createRoot(ment.getElementById("root"));
+
+    root.render(heading)
+
+  </script>
+
+```
+
+- `nested` html structure in React
+
+🌟 _`React Element is an Object that becomes an HTML element  that the browser understands while rendering onto the DOM`_
+
+```
+ <script>
+
+    const heading = React.createElement(
+      "div",
+      {id:"parent"},
+      React.createElement("div",{id:"child"},
+      React.createElement("h1",{},"H1 tag")
+     )
+    );
+
+    const root = ReactDOM.createRoot(ment.getElementById("root"));
+
+    root.render(heading)
+
+  </script>
+```
+
+- Two elements as siblings
+
+  - The third argument is for the children when creating React elements using `React.createElement()`.
+  - This can be a single child element or an array of different child elements.
+  - react throws an error - Each child in a list should have a unique `key` prop.
+
+```
+ <script>
+
+    const heading = React.createElement(
+      "div",
+      {id:"parent"},
+      React.createElement("div",{id:"child"},[
+      React.createElement("h1",{},"H1 tag"),
+      React.createElement("h1",{},"H1 tag")
+     ])
+    );
+
+    const root = ReactDOM.createRoot(ment.getElementById("root"));
+
+    root.render(heading)
+
+  </script>
+```
+
+- _The order of files matters_
+- _React file should be placed before the App.js file_
+
+🌟*The browser reads our HTML*
+🌟*loads the scripts including React and ReactDOM*
+🌟*loads app.js*
+🌟*and starts executing the code line by line*
+🌟*When it encounters the render method*
+🌟*it renders the React element inside the root element*
+
+<!--
+using CDN links we are importing react code into our project
+
+react is use in different place `React Native`
+
+render() method take object -> create h1 tag which the browser understand `React.createElement()` -> put inside root
+React take control over root
+
+**Difference between development and producntion**
+
+**Library and framework**
+
+React is a libarary it can work on small portion of the app as well
+
+Framework which comes with a load of thing
+
+**`Crossorigin`**
+
+ReactDOM.render() is the bridge between React's virtual representation (JavaScript objects) and the actual browser DOM.
+-->
+
 ## chapter 02 - Igniting Our App
 
 ### parcel📦
@@ -1009,3 +1202,5 @@ console.log(current(state))
 
 return {items :[]} //new state
 -->
+
+## chapter 13 - Time for the test
