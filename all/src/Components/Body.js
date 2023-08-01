@@ -1,19 +1,20 @@
 import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../Utils/useOnlineStatus";
-import { useContext } from "react";
 import UserContext from "../Utils/UserContext";
 
 const Body = () => {
-  //Local state variable - super powerful variable
-  const [listOfRestaurants, setListOfRestaurants] = useState([]);
-  const [filteredRestaurant, setfilteredRestaurant] = useState([]);
-  const [searchText, SetSearchText] = useState("");
+  // Local State Variable - Super powerful variable
+  const [listOfRestaurants, setListOfRestraunt] = useState([]);
+  const [filteredRestaurant, setFilteredRestaurant] = useState([]);
+
+  const [searchText, setSearchText] = useState("");
 
   const { user, setUser } = useContext(UserContext);
 
+  // Whenever state variables update, react triggers a reconciliation cycle(re-renders the component)
   useEffect(() => {
     fetchData();
   }, []);
@@ -23,16 +24,14 @@ const Body = () => {
       "https://www.swiggy.com/dapi/restaurants/list/v5?lat=19.0759837&lng=72.8776559&offset=15&sortBy=RELEVANCE&pageType=SEE_ALL&page_type=DESKTOP_SEE_ALL_LISTING"
     );
 
-    const res = await data.json();
-    // Optional Chaining (handling data)
-    setListOfRestaurants(
-      res?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    const json = await data.json();
+
+    // Optional Chaining
+    setListOfRestraunt(
+      json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
-    // console.log(
-    //   res?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.restaurants
-    // );
-    setfilteredRestaurant(
-      res?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    setFilteredRestaurant(
+      json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
   };
 
@@ -63,19 +62,21 @@ const Body = () => {
             className="  border border-purple-300  cursor-pointer bg-white py-2 px-4   flex-grow outline-none bg-transparent"
             placeholder="search for restaurants"
             value={searchText}
-            onChange={(e) => SetSearchText(e.target.value)}
+            onChange={(e) => setSearchText(e.target.value)}
+            data-testid="search-input"
           />
           <button
-            className="border bg-purple-500  border-purple-300  cursor-pointer bg-white py-2 px-2 "
+            data-testid="search-btn"
+            className="border bg-purple-500  border-purple-300  cursor-pointer py-2 px-2 "
             onClick={() => {
               //Filter the restaurant cards and update the UI
               // searchText
-              const filteredList = listOfRestaurants.filter((reataurant) => {
+              const filteredList = listOfRestaurants?.filter((reataurant) => {
                 return reataurant?.info?.name
                   .toLowerCase()
                   .includes(searchText.toLowerCase());
               });
-              setfilteredRestaurant(filteredList);
+              setFilteredRestaurant(filteredList);
             }}
           >
             Search
@@ -86,9 +87,9 @@ const Body = () => {
             const filteredList = listOfRestaurants.filter(
               (res) => res?.info?.avgRating > 4
             );
-            setfilteredRestaurant(filteredList);
+            setFilteredRestaurant(filteredList);
           }}
-          className=" bg-purple-500 border border-purple-300 cursor-pointer bg-white py-2 w-44   hover:shadow-xl"
+          className=" bg-purple-500 border border-purple-300 cursor-pointer  py-2 w-44   hover:shadow-xl"
         >
           Top Rated Restaurants
         </button>
@@ -103,7 +104,10 @@ const Body = () => {
           />
         </div>
       </div>
-      <div className="grid  grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4 bg-white">
+      <div
+        data-testid="res-list"
+        className="grid  grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-4 bg-white"
+      >
         {filteredRestaurant?.map((restaurant) => (
           // console.log(restaurant),
           <Link

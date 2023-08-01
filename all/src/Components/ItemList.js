@@ -34,6 +34,7 @@ const ItemList = ({ items }) => {
                 <button
                   onClick={() => handleAddItem(item)}
                   className="p-2 mx-10 rounded-lg bg-black text-white shadow-lg "
+                  data-testid ="add-btn"
                 >
                   Add +
                 </button>

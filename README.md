@@ -1204,3 +1204,331 @@ return {items :[]} //new state
 -->
 
 ## chapter 13 - Time for the test
+
+### **In React apps, you can perform testing in three different ways**
+
+1. Unit Testing
+
+   - _testing one component_
+   - _Test react component in isolation_
+   - _it involves testing components, utility functions, and other smaller units of code in isolation using tools like `Jest` and testing libraries like `React Testing Library` or `Enzyme`_
+
+2. Integration Testing
+
+   - _Integration testing involves testing how different `units or components work together as a whole`_
+   - _this type of testing checks the `interaction between multiple components` and how they integrate with each other, including `state management, data flow, and interactions between child and parent components`_
+
+3. End-to-End Testing (e2e):
+
+   - _simulates real user scenarios by `testing the entire application from start to finish`_
+   - _End-to-End tests aim to identify potential issues in the complete user journey, such as n`avigation, form submissions, user interactions, and data flow from frontend to backend and vice versa`._
+
+   - tools : Cypress, Puppeteer, and Selenium
+
+### setup test
+
+1. install React testing libaray
+   `npm install --save-dev @testing-library/react`
+
+2. install jest
+   `npm i -D jest`
+
+3. configure jest - use npx to execute it ONCE
+   `npx jest -D --init`
+
+<!--
+
+
+📝📝📝
+_`CRA- abstract lot of things (Parcel ,babel, Browers list)`_
+
+**React testing libary**
+- uses jest BTS
+- part of `Testing Library`
+
+- **Why do we need test cases**
+
+  - to check perfomace
+  - maintainability
+  - changes done by other developer can brake our code
+  - adding new featues can brake existing features
+
+- **`TDD`** - Test Driven Development
+
+  - writing the test even before we writing code
+  - developnent process is very slow
+  - developnent time increases alot
+  - but code quality is good
+
+  ```
+    test("check of 2 numbers"), ()=>{
+        expect(sum(2, 3)).toBe(5)
+        expect(sum(-2, 3)).toBe(1)
+        expect(sum()).toBe("Please check arguments")
+    }
+
+
+    export const sum =(a, b)=>{
+        return a + b
+    }
+  ```
+
+### Different Types of Testing?
+
+- TDD
+- Manual Testing
+  - humans envolve
+- Automated Testing
+  - code testing a code
+  - Selenium Testing
+- E2E Testing - Covers entire user Journey
+  - cypress
+  - uses headles browser - kind of like a actual browser (without UI)
+    - Replacing the manual testing with code
+    - execute test cases faster (doesn't have to pain on browser)
+    - there will be Virtual DOM , diff algo
+- Unit Testing
+  - small component feature testing
+- Integration Testing
+  - Tetsing the integration between the component
+- Smoke Testing
+- Regration Testing
+
+
+### Jest
+
+- Javascript Testing Framework
+
+### setup test
+
+1. install React testing libaray
+   `npm install --save-dev @testing-library/react`
+
+2. install jest
+   `npm i -D jest`
+
+3. configure jest - use npx to execute it ONCE
+   `npx jest -D --init`
+
+   - Would you like to use Typescript for the configuration file? ... no
+   - Choose the test environment that will be used for testing »jsdom (browser-like)
+   - Do you want Jest to add coverage reports? » yes
+   - Which provider should be used to instrument code for coverage? » babel
+   - Automatically clear mock calls, instances, contexts and results before every test? » y
+
+   📝 Configuration file created `jest.config.js`
+
+4. run test
+
+   - Add the following section to your package.json:
+
+   ```
+     {
+        "scripts": {
+        "test": "jest"
+        }
+      }
+   ```
+
+   - `npm run test`
+   - we will get error - `jest-environment-jsdom` (version error)
+   - install jest-environment-jsdom
+     ` npm i -D jest-environment-jsdom`
+   - now run test
+
+5. Create first test file
+
+   - `__tests__` folder
+   - also knows as dunder
+   - naming convetion to write test files
+     - filename.test.js
+
+6. create test
+   - test() it takes two param name and function
+   - test case should have expecction also (assertion)
+   - Make a sum call and expect to be return us value
+   - jest already understand test and expect don't have to import them
+
+```
+ /__test__/sum.tst.js
+
+    import { sum } from "../../sum"; //named import
+
+    test("check sum of two numbers", ()=>{
+      expect(sum(2, 5)).toBe(5);
+    });
+```
+
+_`Error fixed : type:'module`_
+
+7. SyntaxError: Cannot use import statement outside a module
+
+   - Jest don't understand this import
+
+8. Configure Babel (translator)
+   - install
+     `npm install --save-dev babel-jest @babel/core @babel/preset-env`
+   - two ways to configure babel
+     - .babelrc file
+     - babel.config.js
+
+```
+  //JSON
+  {
+    "presets": [["@babel/preset-env", { "targets": { "node": "current" } }]]
+  }
+
+```
+
+9. gitignore coverage report
+
+10. Unit Testing
+
+    1. Test cases for Header.js
+
+       - expect
+
+         - load logo
+         - cart item 0
+         - default status should be online
+
+       - write descript test name
+       - `import Header file`
+       - `import render method` to render the Header component
+
+       - `SyntaxError: Support for the experimental syntax 'jsx' isn't currently enabled`
+
+         - **babel** helps
+         - install one more package :
+           - `npm install -D @babel/preset-react`
+
+```
+.babelrc
+
+  {
+      "presets": [
+        ["@babel/preset-env", { "targets": { "node": "current" } }],
+        ["@babel/preset-react", { "runtime": "automatic" }]
+      ]
+  }
+
+Header.test.js
+
+  import { render } from "@testing-library/react";
+  import Header from "../Header";
+
+  test("Logo should load on rendering header", () => {
+
+    const header = render(<Header />);
+    const logo = header.getAllByTestId()
+  });
+
+  data-testid="logo"
+
+
+// dummy fetch
+
+  global.fetch = jest.fn(() => {
+    return Promise.resolve({
+      json: () => {
+        return Promise.resolve(DATA);
+      },
+    });
+  });
+
+```
+
+- **ERRORS**
+
+- jsdom don't understand images
+- jest.config.js
+  moduleNameMapper: {
+  "\\.png": "../mocks/dummyLogo.js",
+  },
+
+- Provider
+- React-redux not found, Header doesn't have a Provider
+
+- Link
+- `import { StaticRouter } from "react-router-dom/server"`
+- work without browser
+
+```
+import { render } from "@testing-library/react";
+import Header from "../Header";
+import { Provider } from "react-redux";
+import store from "../../Utils/store";
+import { StaticRouter } from "react-router-dom/server";
+
+test("Logo should load on rendering header", () => {
+  //Load header
+  const header = render(
+    <StaticRouter>
+      <Provider store={store}>
+        <Header />
+      </Provider>
+    </StaticRouter>
+  );
+
+  const logo = header.getAllByTestId("logo");
+  expect(logo[0].src).toBe("http://localhost/dummy.png");
+});
+
+```
+
+11. Integration Testing
+
+    - Search feature
+    - Mock data to test component
+    - jest don't understand fetch
+    - global.fetch = jest.fn() //dummy function jest
+    - fetch returns a Promise - readablestream -> json -> Promise
+
+JSON and Js Object
+- when you make and api call we get JSON need to convert into json
+
+readableStream ->json
+
+test running on different environment `JEST`
+code checking our code
+
+jsdom
+mini kind of browser
+
+babel help jest to understand import
+transpiler
+
+coverage report
+coverage folder - gives you the coverage report - how much code we have coverd - how many test case have we coverd
+
+render method to render the component
+we don't have `root` in jsdom
+render function create small container to load components
+
+react put everything inside `root`
+
+png image = read as a javascript
+jsdom don't understand images
+mock - dummy image
+
+jest will help us
+
+Link createBrowserRouter won't work
+
+virtual object
+react Fibre reconciliation algo
+
+- getAllByTestId()
+- getByTestId()
+- `data-testid ="your_id"`
+
+"watch-jest": "jest --watch"
+
+async await
+
+import "@testing-library/jest-dom";
+toBeInTheDocument
+npm i -D @reacttestinglibrary
+
+  expect(shimmer.children).toBeInTheDocument();
+-->

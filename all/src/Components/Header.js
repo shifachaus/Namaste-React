@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
-import { LOGO__URL } from "../Utils/constants";
+// import { LOGO__URL } from "../Utils/constants";
+import Logo from "../assets/img/foodvilla.png";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../Utils/useOnlineStatus";
 import UserContext from "../Utils/UserContext";
@@ -21,13 +22,13 @@ const Header = () => {
     <section className="flex border border-purple-200 shadow-md">
       <div className="flex justify-between items-center w-[90%] max-w-7xl my-0 mx-auto">
         <div className="logo__container">
-          <Link to="/">
-            <img className="w-40" src={LOGO__URL} />
-          </Link>
+          <img data-testid="logo" className="w-40" alt="logo" src={Logo} />
+          {/* <Link to="/">
+          </Link> */}
         </div>
         <nav className=" md:inline">
           <ul className="flex gap-4">
-            <p>{onlineStatus ? "🟢" : "🔴"}</p>
+            <p data-testid="online-status">{onlineStatus ? "🟢" : "🔴"}</p>
 
             <li>
               <Link to="/">Home</Link>
@@ -42,8 +43,10 @@ const Header = () => {
             <li>
               <Link to="/grocery">Grocery</Link>
             </li>
-            <Link to="/cart">Cart {cartItems?.length}</Link>
-            <p>{user?.name}</p>
+            <Link to="/cart">
+              <span data-testid="cart">Cart {cartItems?.length}</span>
+            </Link>
+            <span className="p-10 font-bold text-red-900">{user?.name}</span>
             <button
               className="login"
               onClick={() => {
